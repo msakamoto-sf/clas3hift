@@ -13,10 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package junit.extensions.clas3hift;
+package test;
 
+import static org.junit.Assert.*;
+import junit.extensions.clas3hift.SandBox;
 import java.util.Map;
+import test.stub.Foo0;
 
-public interface SandBox {
-    public void sandbox(Map<String, Object> result);
+public class SandBox1 implements SandBox {
+    public void sandbox(Map<String, Object> result) {
+        assertEquals("My name is Foo1", Foo0.getName());
+    }
 }

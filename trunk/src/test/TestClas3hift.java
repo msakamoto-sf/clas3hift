@@ -16,6 +16,7 @@
 package test;
 
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.junit.Assert.*;
 import junit.extensions.clas3hift.SandBox;
 import junit.extensions.clas3hift.Clas3hift;
@@ -27,12 +28,8 @@ public class TestClas3hift {
     @Test
         public void Clas3hift_0() {
             Clas3hift cs = new Clas3hift();
-            cs.play(new SandBox() {
-                public void sandbox(Map result) {
-                    result.put("test1", Foo0.name);
-                    result.put("test2", Foo0.getName());
-                }
-            });
+            SandBox0 sb = new SandBox0();
+            cs.play(sb);
             assertEquals("I am Foo0", (String)cs.result("test1"));
             assertEquals("My name is Foo0", (String)cs.result("test2"));
         }
@@ -41,23 +38,36 @@ public class TestClas3hift {
         public void Clas3hift_1() throws ClassNotFoundException {
             Clas3hift cs = new Clas3hift();
             cs.register("test.stub.Foo0", "test.stub.Foo1");
-            cs.play(new SandBox() {
-                public void sandbox(Map result) {
-                    assertEquals("I am Foo1", Foo0.name);
-                    assertEquals("My name is Foo1", Foo0.getName());
-                }
-            });
+            SandBox1 sb = new SandBox1();
+            cs.play(sb);
         }
 
     @Test
         public void Clas3hift_2() throws ClassNotFoundException {
             Clas3hift cs = new Clas3hift();
             cs.register("test.stub.Foo0", "test.stub.Foo2");
+            SandBox2 sb = new SandBox2();
+            cs.play(sb);
+        }
+
+    @Ignore
+        // unsupported test code examples...
+        public void Clas3hift_DONTTEST() throws ClassNotFoundException {
+            Clas3hift cs = new Clas3hift();
+            cs.register("test.stub.Foo0", "test.stub.FooDONTTEST");
+
+            // DON'T SUPPORT INNER/NESTED SANDBOX CLASS!!!
             cs.play(new SandBox() {
-                public void sandbox(Map result) {
-                    assertEquals("I am Foo0", Foo0.name);
-                    assertEquals("My name is Foo0", Foo0.getName());
+
+                public void sandbox(Map<String, Object> result) {
+
+                    // DON'T USE new !! cause CPU hang-up!!
+                    Foo0 f = new Foo0();
+
+                    // static fields aren't supported!!!
+                    assertEquals("DONT TEST", Foo0.name);
                 }
+
             });
         }
 }
